@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7fbf7" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="我的冰箱" />
+    <title>我的冰箱</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/fridge-icon.svg" />
+    <link rel="icon" href="icons/fridge-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">今天的库存</p>
+          <h1>我的冰箱</h1>
+        </div>
+        <button class="icon-button" id="backupButton" type="button" aria-label="备份数据">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v10m0-10 4 4m-4-4-4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+          </svg>
+        </button>
+      </header>
+
+      <section class="summary" aria-label="库存概览">
+        <div>
+          <span id="totalCount">0</span>
+          <small>种食材</small>
+        </div>
+      </section>
+
+      <section class="panel add-panel" aria-label="添加食材">
+        <form id="itemForm" autocomplete="off">
+          <div class="input-row">
+            <label>
+              <span>食材</span>
+              <input id="nameInput" name="name" type="text" placeholder="点击选择或输入" readonly required />
+            </label>
+            <label>
+              <span>数量</span>
+              <input id="quantityInput" name="quantity" type="number" min="0" step="0.5" value="1" required />
+            </label>
+          </div>
+
+          <div class="input-row single">
+            <label>
+              <span>单位</span>
+              <select id="unitInput" name="unit">
+                <option>个</option>
+                <option>盒</option>
+                <option>袋</option>
+                <option>瓶</option>
+                <option>斤</option>
+                <option>克</option>
+                <option>份</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="category-grid" id="categoryGrid" aria-label="食材分类"></div>
+
+          <button class="primary-button" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            加入冰箱
+          </button>
+        </form>
+      </section>
+
+      <section class="inventory" aria-label="冰箱库存">
+        <div class="section-title">
+          <h2>冰箱库存</h2>
+          <button class="text-button" id="clearButton" type="button">清空</button>
+        </div>
+        <div class="item-list" id="itemList"></div>
+        <p class="empty-state" id="emptyState">冰箱还空着。</p>
+      </section>
+    </main>
+
+    <div class="picker-backdrop" id="foodPicker" hidden>
+      <section class="food-picker" role="dialog" aria-modal="true" aria-labelledby="foodPickerTitle">
+        <div class="dialog-header">
+          <h2 id="foodPickerTitle">选择食材</h2>
+          <button class="icon-button small" id="closePickerButton" type="button" aria-label="关闭">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <label class="custom-food-field">
+          <span>自定义食材</span>
+          <input id="customFoodInput" type="text" placeholder="输入特殊食材" />
+        </label>
+        <button class="primary-button compact" id="useCustomFoodButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          使用这个食材
+        </button>
+        <div class="picker-chip-grid" id="pickerGrid" aria-label="常见食材"></div>
+      </section>
+    </div>
+
+    <dialog class="backup-dialog" id="backupDialog">
+      <form method="dialog">
+        <div class="dialog-header">
+          <h2>数据备份</h2>
+          <button class="icon-button small" value="cancel" aria-label="关闭">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <textarea id="backupText" readonly></textarea>
+        <button class="primary-button" id="copyBackupButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 8h10v12H8zM6 16H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" />
+          </svg>
+          复制备份
+        </button>
+      </form>
+    </dialog>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
