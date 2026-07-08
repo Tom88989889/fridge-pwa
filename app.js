@@ -155,12 +155,26 @@ function renderItems() {
             <span class="status-pill">${escapeHtml(`已放入 ${days} 天`)}</span>
           </div>
         </div>
-        <button class="delete-button" type="button" aria-label="删除${escapeHtml(item.name)}">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14" />
-          </svg>
-        </button>
+        <div class="item-actions" aria-label="${escapeHtml(item.name)}数量操作">
+          <button class="quantity-button decrease-button" type="button" aria-label="减少${escapeHtml(item.name)}数量">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14" />
+            </svg>
+          </button>
+          <button class="quantity-button increase-button" type="button" aria-label="增加${escapeHtml(item.name)}数量">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </button>
+          <button class="delete-button" type="button" aria-label="删除${escapeHtml(item.name)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14" />
+            </svg>
+          </button>
+        </div>
       `;
+      card.querySelector(".decrease-button").addEventListener("click", () => changeQuantity(item.id, -1));
+      card.querySelector(".increase-button").addEventListener("click", () => changeQuantity(item.id, 1));
       card.querySelector(".delete-button").addEventListener("click", () => deleteItem(item.id));
       els.itemList.append(card);
     });
@@ -175,6 +189,21 @@ function updateSummary() {
 
 function deleteItem(id) {
   state.items = state.items.filter((item) => item.id !== id);
+  saveItems();
+  renderItems();
+}
+
+function changeQuantity(id, delta) {
+  const item = state.items.find((entry) => entry.id === id);
+  if (!item) return;
+
+  const nextQuantity = Number(item.quantity) + delta;
+  if (nextQuantity <= 0) {
+    deleteItem(id);
+    return;
+  }
+
+  item.quantity = nextQuantity;
   saveItems();
   renderItems();
 }

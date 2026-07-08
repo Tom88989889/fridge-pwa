@@ -86,6 +86,7 @@ h2 {
 .primary-button,
 .text-button,
 .chip,
+.quantity-button,
 .delete-button {
   border: 0;
   cursor: pointer;
@@ -253,6 +254,7 @@ textarea:focus {
 .primary-button:active,
 .icon-button:active,
 .chip:active,
+.quantity-button:active,
 .delete-button:active,
 .text-button:active {
   transform: translateY(1px);
@@ -364,12 +366,26 @@ textarea:focus {
   font-weight: 850;
 }
 
+.item-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.quantity-button,
 .delete-button {
   display: grid;
   width: 40px;
   height: 40px;
   place-items: center;
   border-radius: 8px;
+}
+
+.quantity-button {
+  background: #edf5ec;
+  color: var(--green-dark);
+}
+
+.delete-button {
   background: #f7ecea;
   color: var(--red);
 }
